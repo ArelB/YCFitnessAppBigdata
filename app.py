@@ -1,4 +1,5 @@
 from flask import Flask
+from flask import render_template
 import Felix
 import Wouter
 
@@ -15,3 +16,7 @@ def andere():
 @app.route("/csv")
 def nieuw():
     return Wouter.csvFunctie()
+
+@app.route("/csv/<pok>")
+def printpok(pok):
+    return Wouter.printPokemon(pok)
