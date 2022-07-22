@@ -1,5 +1,6 @@
 from flask import Flask
 import Felix
+import Wouter
 
 app = Flask(__name__)
 
@@ -10,3 +11,7 @@ def hello_world():
 @app.route("/tweede")
 def andere():
     return Felix.vanFelix1()
+
+@app.route("/csv")
+def nieuw():
+    return Wouter.csvFunctie()
