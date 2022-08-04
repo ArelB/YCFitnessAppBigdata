@@ -26,7 +26,7 @@ def csvJSON():
     df = pandas.read_csv("Pokemon.csv")    
     return df.to_json()
 
-filename = 'KMDS__OPER_P___10M_OBS_L2_202208010130.nc'
+filename = 'KMDS__OPER_P___10M_OBS_L2_202208040130.nc'
 
 #api call van KNMI nieuwste data + data opslaan in NC bestand
 def ApiCall():
