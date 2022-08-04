@@ -1,7 +1,9 @@
 flask
 pandas
-json
 requests
 pathlib
 netCDF4
 datetime
+BeautifulSoup4
+plotly.express
+mysql-connector-python

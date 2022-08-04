@@ -2,6 +2,8 @@ from flask import Flask
 
 import Felix
 import Wouter
+import VoortgangVisualisatie
+import RunTipsScraping
 
 
 app = Flask(__name__)
@@ -44,5 +46,15 @@ def callapi():
 def printweer():
     return Wouter.NCdata()
 
-app.run(debug=True)
+#connectie met database en voortgang van route visualiseren
+@app.route("/VoortgangVisual")
+def printGraph():
+    return VoortgangVisualisatie.ShowGraph()
 
+#data scrapen van website en random tip tonen
+@app.route("/RunTip")
+def printRunTip():
+    return RunTipsScraping.GetTip()
+
+
+app.run(debug=True)
