@@ -57,4 +57,5 @@ def printRunTip():
     return RunTipsScraping.GetTip()
 
 
-app.run(debug=True)
+#voor niet flask refreshen, run python app.py met hieronder niet in commentaar
+#app.run(debug=True)
