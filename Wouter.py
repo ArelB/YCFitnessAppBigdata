@@ -6,6 +6,7 @@ from pathlib import Path
 from netCDF4 import Dataset
 import datetime
 
+
 #lees een csv bestand in repo
 def csvFunctie():
     df = pandas.read_csv("Pokemon.csv")
