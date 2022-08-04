@@ -7,3 +7,4 @@ datetime
 BeautifulSoup4
 plotly.express
 mysql-connector-python
+Flask-Cors
