@@ -60,10 +60,5 @@ def printGraph():
 def printRunTip():
     return RunTipsScraping.GetTip()
 
-
-<<<<<<< HEAD
 #voor niet flask refreshen, run python app.py met hieronder niet in commentaar
 #app.run(debug=True)
-=======
-app.run(debug=True)
->>>>>>> main
