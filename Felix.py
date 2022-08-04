@@ -1,75 +1,31 @@
-from dash import Dash, dcc, html, Input, Output
-import plotly.express as px
-import json
-
-fig = px.line(
-    x=["a","b","c"], y=[1,3,2], # replace with your own data source
-    title="sample figure", height=325
-)
-
-app = Dash(__name__)
-
-app.layout = html.Div([
-    html.H4('Displaying figure structure as JSON'),
-    dcc.Graph(id="graph", figure=fig),
-    dcc.Clipboard(target_id="structure"),
-    html.Pre(
-        id='structure',
-        style={
-            'border': 'thin lightgrey solid', 
-            'overflowY': 'scroll',
-            'height': '275px'
-        }
-    ),
-])
-
-
-@app.callback(
-    Output("structure", "children"), 
-    Input("graph", "figure"))
-def display_structure(fig_json):
-    return json.dumps(fig_json, indent=2)
-
-
-app.run_server(debug=True)
-'''
 import plotly.graph_objects as go
-
-from dash import Dash, dcc, html, Input, Output
-import plotly.express as px
-import json
+import plotly.express as px 
+import pandas as pd
 
 
 def vanFelix1():
-    fig = go.Figure(
-        data=[go.Bar(x=[1, 2, 3], y=[1, 3, 2])],
-        layout=go.Layout(
-            title=go.layout.Title(text="A Figure Specified By A Graph Object")
-        )
-    )
 
+
+    # data
+    df = pd.DataFrame({'x':['cars', 'fietsen', 'karts', 'motor'],
+                        '2006':[1, 4, 9, 16],
+                        '2007':[1, 4, 9, 16],
+                        '2008':[6, 8, 4.5, 8]})
+    df = df.set_index('x')
+
+    # calculations
+    # column sums for transposed dataframe
+    sums= []
+    for col in df.T:
+        sums.append(df.T[col].sum())
+
+    # change dataframe format from wide to long for input to plotly express
+    df = df.reset_index()
+    df = pd.melt(df, id_vars = ['x'], value_vars = df.columns[1:])
+
+    fig = px.bar(df, x='x', y='value', color='variable')
+    fig.data[-1].text = sums
+
+    fig.update_traces(textposition='inside')
     fig.show()
-    fig = px.line(
-        x=["a","b","c"], y=[1,3,2], # replace with your own data source
-        title="sample figure", height=325
-    )
-
-    app = Dash(__name__)
-
-    app.layout = html.Div([
-        html.H4('Displaying figure structure as JSON'),
-        dcc.Graph(id="graph", figure=fig),
-        dcc.Clipboard(target_id="structure"),
-        html.Pre(
-            id='structure',
-            style={
-                'border': 'thin lightgrey solid', 
-                'overflowY': 'scroll',
-                'height': '275px'
-            }
-        ),
-    ])
-    app.run_server(debug=True)
-    return "dit is een methode van Felix"
-
-'''
+    return "dit is een methode van Felix2"

@@ -44,3 +44,5 @@ def callapi():
 def printweer():
     return Wouter.NCdata()
 
+app.run(debug=True)
+
