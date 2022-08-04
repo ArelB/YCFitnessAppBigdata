@@ -5,3 +5,6 @@ requests
 pathlib
 netCDF4
 datetime
+BeautifulSoup
+plotly.express
+mysql.connector
