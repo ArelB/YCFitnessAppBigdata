@@ -1,6 +1,5 @@
 flask
 pandas
-json
 requests
 pathlib
 netCDF4
