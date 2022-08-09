@@ -1,5 +1,7 @@
 import requests
+import random
 from bs4 import BeautifulSoup
+from flask import render_template
 
 def GetTip():
 
@@ -20,9 +22,38 @@ def GetTip():
     for x in BodyTips:
         print(x.get_text())
     # #nu is het al veel duidelijker maar nog steeds een hoop dingen, zie hieronder
-    print(TitleTips)
+    nummer = random.randint(0,9)
 
-    print(BodyTips)
+    textnr = ""
+
+    if nummer == 0:
+        textnr = [0,1]
+    elif nummer == 1:
+        textnr = [2,3,4]
+    elif nummer == 2:
+        textnr = [5,6,7]
+    elif nummer == 3:
+        textnr = [8,9,10]
+    elif nummer == 4:
+        textnr = [11,12,13]
+    elif nummer == 5:
+        textnur = [14,15,16]
+    elif nummer == 6:
+        textnr = [17,18]
+    elif nummer == 7:
+        textnr = [19,20,21]
+    elif nummer == 8:
+        textnr = [22,23]
+    elif nummer == 9:
+        textnr = [24,25]
+
+    print("=======================================================")
+    bodytip = ""
+
+    print(TitleTips[nummer].text)
+    for x in textnr:
+        print(BodyTips[x])
+        bodytip = bodytip + str(BodyTips[x].text) + " "
 
     # #je kan het ook iets meer leesbaar maken met prettify
     # #print(tabel.prettify())
@@ -39,4 +70,4 @@ def GetTip():
     #     if x > 1:
     #         break
 
-    return "hoi"
+    return render_template("runtip_template.html", runtip = [TitleTips[nummer].text, bodytip])

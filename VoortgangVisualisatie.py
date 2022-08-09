@@ -1,29 +1,39 @@
-import mysql.connector
+import pyodbc as odbc
 import plotly.express as px
 import pandas as pd
+import datetime
 
-def ShowGraph():
-    mijndb = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="",
-        database="sport"
-    )
+def printhome():
+    return "hey"
 
-    mijncursor = mijndb.cursor()
-    baseSQL = "SELECT datum, Tijd FROM run WHERE GebruikerID = %s AND RouteID = %s"
-    Specifics = (7, 123)
-    mijncursor.execute(baseSQL, Specifics);
-    recordset = mijncursor.fetchall()
+def ShowGraph(persoon):
 
-    # for x in recordset:
-    #     print("id nr:", x[0], " naam: ", x[1])
+    #bepalen wat meest recente bestand is:
+    server = 'yc2207hardloopserver.database.windows.net'
+    database = 'yc2207backend'
+    username = 'hardloop'
+    password = 'abcd1234ABCD!@#$'
+    driver= '{ODBC Driver 17 for SQL Server}'
 
-    df1 = pd.DataFrame(recordset, columns=["DatumTijd", "Seconden"])
-    print(df1)
+    with odbc.connect('DRIVER='+driver+';SERVER=tcp:'+server+';PORT=1433;DATABASE='+database+';UID='+username+';PWD='+ password) as conn:
+        with conn.cursor() as cursor:
+            # cursor.execute("SELECT R.DateAndTime, R.Duration FROM dbo.[User] U INNER JOIN Run R ON R.UserID = U.ID WHERE U.UserName = '"+persoon+"' AND RouteID = 9")
+            # row = cursor.fetchall()
+            sql_query = pd.read_sql_query("SELECT R.DateAndTime, R.Duration FROM dbo.[User] U INNER JOIN Run R ON R.UserID = U.ID WHERE U.UserName = '"+persoon+"' AND RouteID = 9", 
+            conn, parse_dates={"DateAndTime": {"format": "%Y%M%d %H%M"}, "Duration": {"format": "%H%M"}})
 
-    fig = px.line(df1, x="DatumTijd", y="Seconden", title='Tijd in seconden voor route 123 van toby')
+            
+            df = pd.DataFrame(sql_query, columns=["DateAndTime", "Duration"])
+
+    df["Durationsec"] = 0
+
+    for idx, x in enumerate(df["Duration"]):
+        df["Durationsec"].iloc[idx] = (x.hour * 60 + x.minute) * 60 + x.second    
+    
+    print(df)
+    df = df.sort_values(by="DateAndTime")
+    fig = px.line(df, x="DateAndTime", y="Durationsec", title="Tijd route 9 van "+persoon, markers=True)
     fig.show()
     
-    print("---------============== einde execute")
+    # print("---------============== einde execute")
     return "see new tab"
