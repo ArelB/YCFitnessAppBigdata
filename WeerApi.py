@@ -85,6 +85,10 @@ def NCdata(loc):
 
     #open NC bestand
     rootgrp = Dataset(filename, "r", format="NETCDF4")
+    weerstationen = rootgrp.variables['stationname'][:]
+    
+    if loc not in weerstationen:
+        return "Dit weerstation klopt niet, probeer opnieuw of check de hoofdpagina op /Weer"
 
     #voor navigatie in NC bestand
     # print(rootgrp.__dict__)
@@ -92,7 +96,7 @@ def NCdata(loc):
     #     print(dim)
     # print(rootgrp.dimensions['time'])
     # print(rootgrp.variables.keys())
-    print(rootgrp.variables['stationname'][:])
+    #print(rootgrp.variables['stationname'][:])
     # print(rootgrp.variables['rh'][:])
     # print(len(rootgrp.variables['stationname']))
     # print(len(rootgrp.variables['rh']))
@@ -100,7 +104,6 @@ def NCdata(loc):
     # print(VanafDatum)
 
     getal = 0
-    loc = loc.replace(":", ' ')
     for idx, x in enumerate(rootgrp.variables['stationname']):
         if x == loc: 
             getal = idx
@@ -130,3 +133,7 @@ def NCdata(loc):
     rootgrp.close()
 
     return render_template("Weer_template.html", returnlist = [str(locatieTijd), str(Temperatuur), str(Luchtvochtigheid), str(Wind), str(Neerslag), str(TempWaarschuwing), str(LuchtvochtigheidWaarschuwing), str(WindWaarschuwing), str(NeerslagWaarschuwing), str(GladSneeuwWaarschuwing)])
+
+def Userfriendly(loc):
+    ApiCall()
+    return NCdata(loc)

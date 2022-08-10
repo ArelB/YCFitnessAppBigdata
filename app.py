@@ -64,17 +64,32 @@ def printhomeweer():
 #return weer van locatie
 @app.route("/apiWeer/<loc>")
 def printweer(loc):
-    return WeerApi.NCdata(loc)   
+    return WeerApi.NCdata(loc)
+
+#gebruikervriendelijk weer homepagina
+@app.route("/Weer")
+def weerhome():
+    return WeerApi.homepagina()
+
+#gebruikervriendelijk apicall+weer op locatie
+@app.route("/Weer/<loc>")
+def weer(loc):
+    return WeerApi.Userfriendly(loc)   
 
 #pagina die aangeeft dat je een persoon moet kiezen
 @app.route("/VoortgangVisual")
-def printhomevisual():
-    return "Kies een persoon door '/' met de naam van een persoon achter de url te typen en op enter te klikken"
+def printkiespersoon():
+    return "Kies een persoon door '/' met de naam of id van een persoon achter de url te typen en op enter te klikken"
 
 #connectie met database en voortgang van route visualiseren voor een persoon
 @app.route("/VoortgangVisual/<persoon>")
-def printGraph(persoon):
-    return VoortgangVisualisatie.ShowGraph(persoon)
+def printkiesroute(persoon):
+    return "Kies een route die dit persoon heeft minstens 1 keer heeft gerend door '/' met het id of naam van de route achter de url te typen"
+
+#connectie met database en voortgang van route visualiseren voor een persoon
+@app.route("/VoortgangVisual/<persoon>/<route>")
+def printGraph(persoon, route):
+    return VoortgangVisualisatie.ShowGraph(persoon, route)
 
 #data scrapen van website en random tip tonen
 @app.route("/RunTip")
