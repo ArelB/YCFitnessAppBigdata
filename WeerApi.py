@@ -63,8 +63,6 @@ def ApiCall():
     return "[" + timestamp2 + "]: De meest recente weergegevens die u heeft opgevraagt zijn opgeslagen in de map ApiCallResults onder de naam: "+ filename
 
 def homepagina():
-
-
     return render_template('apiweerhome.html')
 
 
@@ -83,12 +81,15 @@ def NCdata(loc):
     
     filename = str(row[-1][1])
 
+    #for testing
+    #filename = "ApiCallResults\KMDS__OPER_P___10M_OBS_L2_202208100910.nc"
+
     #open NC bestand
     rootgrp = Dataset(filename, "r", format="NETCDF4")
     weerstationen = rootgrp.variables['stationname'][:]
     
-    if loc not in weerstationen:
-        return "Dit weerstation klopt niet, probeer opnieuw of check de hoofdpagina op /Weer"
+    # if loc not in weerstationen:
+    #     return "Dit weerstation klopt niet, probeer opnieuw of check de hoofdpagina op /Weer"
 
     #voor navigatie in NC bestand
     # print(rootgrp.__dict__)
@@ -96,14 +97,14 @@ def NCdata(loc):
     #     print(dim)
     # print(rootgrp.dimensions['time'])
     # print(rootgrp.variables.keys())
-    #print(rootgrp.variables['stationname'][:])
+    print(len(rootgrp.variables['stationname'][:]))
     # print(rootgrp.variables['rh'][:])
     # print(len(rootgrp.variables['stationname']))
     # print(len(rootgrp.variables['rh']))
     # print(int(rootgrp.variables["time"][0]))
     # print(VanafDatum)
 
-    getal = 0
+    getal = 14
     for idx, x in enumerate(rootgrp.variables['stationname']):
         if x == loc: 
             getal = idx
@@ -116,7 +117,7 @@ def NCdata(loc):
     Temperatuur = "De temperatuur is: " + str(rootgrp.variables["ta"][getal][0]) + " graden Celcius"
     Luchtvochtigheid = "De luchtvochtigheid is: " + str(rootgrp.variables["rh"][getal][0]) + " %"
     Wind = "De windsnelheid is: " + str(rootgrp.variables["ff"][getal][0]) +  "m/s" + " en de windvlaagsnelheid kan " + str(rootgrp.variables["gff"][getal][0]) + "m/s behalen"
-    Neerslag = "Er is " + str(rootgrp.variables["R1H"][getal][0]) + " mm neerslag gevallen over " + str(rootgrp.variables["D1H"][getal][0]) + "minuten in het afgelopen uur"
+    Neerslag = "Er is " + str(rootgrp.variables["R1H"][getal][0]) + " mm neerslag gevallen over " + str(rootgrp.variables["D1H"][getal][0]) + " minuten in het afgelopen uur"
 
     TempWaarschuwing = 'De temperatuur is prima'
     LuchtvochtigheidWaarschuwing = 'De luchtvochtigheid is prima'
@@ -131,6 +132,8 @@ def NCdata(loc):
     if rootgrp.variables["R1H"][getal] > 0 and rootgrp.variables["ta"][getal] < 0: GladSneeuwWaarschuwing = "Pas op! Het heeft in het afgelopen uur geregend en de temperatuur is onder 0 C. Er kan sneeuw liggen en het kan glad zijn"
 
     rootgrp.close()
+
+    
 
     return render_template("Weer_template.html", returnlist = [str(locatieTijd), str(Temperatuur), str(Luchtvochtigheid), str(Wind), str(Neerslag), str(TempWaarschuwing), str(LuchtvochtigheidWaarschuwing), str(WindWaarschuwing), str(NeerslagWaarschuwing), str(GladSneeuwWaarschuwing)])
 

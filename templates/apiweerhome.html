@@ -5,8 +5,103 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script>
+        var x;
+        var y;
+        var shortestdist = 0;
+        var shorteststation = "somewhere";
+        window.onload = function(){
+            getLocation();
+            x = document.getElementById("demo");
+            y = document.getElementById("demo2");
+            var shortestdist = 0;
+            var shorteststation = "somewhere";
+        }
+        
+        function getLocation() {
+            if (navigator.geolocation) {
+                console.log(navigator.geolocation)
+                navigator.geolocation.getCurrentPosition(showPosition);
+            } else {
+                x.innerHTML = "Geolocation is not supported by this browser.";
+            }
+        }
+
+        function showPosition(position) {
+            x.innerHTML = "Latitude: " + position.coords.latitude +
+            "<br>Longitude: " + position.coords.longitude;
+        }
+
+        //data
+        const dekooy = ["de kooy", 52.924, 4.785];
+        const debilt = ["de bilt", 52.101, 5.177];
+        const eelde = ["Eelde", 53.125, 6.586];
+        const vlissingen = ["Vlissingen", 51.442, 3.596];
+        const maastricht = ["Maastricht", 50.910, 5.768];
+        const valkenburg = ["Valkenburg", 52,165, 4.419];
+        const schiphol = ["Schiphol", 52.301, 4.774];
+        const soesterberg = ["Soesterberg", 52.130, 5.274];
+        const leeuwarden = ["Leeuwarden", 53.225, 5.755];
+        const deelen = ["Deelen", 52.061, 5.888];
+        const twenthe = ["Twenthe", 52.273, 6.897];
+        const rotterdam = ["Rotterdam", 51.955, 4.444];
+        const gilzerijen = ["Gilze-rijen", 51.568, 4.933];
+        const volkel = ["Volkel", 51.657, 5.706];
+        const marknesse = ["Marknesse", 52.703, 5.889];
+        const cabauw = ["Cabauw", 51.972, 4.927];
+        const eindhoven = ["Eindhoven", 51.446, 5.414];
+        const berkhout = ["Berkhout", 52.644, 4.979];
+        const hoorn = ["Hoorn", 53.393, 5.346];
+        const stavoren = ["Stavoren", 52.896, 5.384];
+        const lelystad = ["Lelystad", 52.458, 5.526];
+        const lauwersoog = ["Lauwersoog", 53.409, 6.196];
+        const heino = ["Heino", 52.437, 6.263];
+        const hoogeveen = ["Hoogeveen", 52.750, 6.575];
+        const hupsel = ["Hupsel", 52.073, 6.650];
+        const nieuwbeerta = ["Nieuw beerta", 53.196, 7.150];
+        const westdorpe = ["Westdorpe", 51.226, 3.862];
+        const wilhelminadorp = ["Wilhelminadorp", 51.527, 3.884];
+        const hoekvanholland = ["Hoek van holland", 51.993, 4.124];
+        const herwijnen = ["Herwijnen", 51.858, 5.145];
+        const ell = ["Ell", 51.197, 5.764];
+        const arcen = ["Arcen", 51.498, 6.196];
+        const wijkaanzee = ["Wijk aan zee", 52.506, 4.603];
+        const voorschoten = ["Voorschoten", -999.900, -999.900];
+
+        const Weerstationnen = [dekooy, debilt, eelde, vlissingen, maastricht, valkenburg,schiphol, soesterberg, leeuwarden, deelen, twenthe,
+                                rotterdam, gilzerijen,volkel, marknesse, cabauw, eindhoven,berkhout,hoorn,stavoren, lelystad,lauwersoog,heino,hoogeveen,
+                                hupsel,nieuwbeerta,westdorpe,wilhelminadorp,hoekvanholland,herwijnen, ell,arcen, wijkaanzee, voorschoten];
+        
+        function showSomething(position) {
+            y.innerHTML = "hoi";
+            shortestdist = 100;
+            shorteststation = "somewhere";
+            for (let i = 0; i < Weerstationnen.length; i++) {
+                //√[(x₂ - x₁)² + (y₂ - y₁)²]
+                console.log(Weerstationnen[i][0],Weerstationnen[i][1], Weerstationnen[i][2])
+                console.log("station: " + Weerstationnen[i][0] + " afstand: " + Math.sqrt((position.coords.latitude - Weerstationnen[i][1])**2 +  (position.coords.longitude - Weerstationnen[i][2])**2))
+                if (Math.sqrt((position.coords.latitude - Weerstationnen[i][1])**2 +  (position.coords.longitude - Weerstationnen[i][2])**2) < shortestdist) {
+                    shortestdist = Math.sqrt((position.coords.latitude - Weerstationnen[i][1])**2 +  (position.coords.longitude - Weerstationnen[i][2])**2);
+                    shorteststation = Weerstationnen[i][0];
+                }
+            }
+            y.innerHTML = shortestdist + shorteststation;
+            
+        }
+
+        function FindClosestWeerStation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showSomething);
+                //console.log(position.coords.latitude);
+            } else {
+                y.innerHTML = "Zet eerst je locatie aan";
+            }
+        }
+
+    </script>
 </head>
 <body>
+    
     <h2>Kies uit een van de onderstaande opties en plak deze met '/' achter de huidige url:</h2>
     <br>
     'D15-FA-1' 'P11-B' 'K14-FA-1C' 'A12-CPP' 'L9-FF-1' 'AWG-1' 'J6-A'
@@ -34,5 +129,13 @@
     'JUANCHO E. YRAUSQUIN AIRPORT  SABA'
     <br>
     'F.D. ROOSEVELT AIRPORT ST. EUSTATIUS' 'FLAMINGO AIRPORT BONAIRE'
+    
+    
+    <div id="demo"></div>
+    <button onclick="getLocation()">Try It</button>
+    <div id="demo2"></div>
+    <button onclick="FindClosestWeerStation()">Try It</button>
+
+    
 </body>
 </html>
