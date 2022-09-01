@@ -5,29 +5,44 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script>
+        window.onload = function(){
+            checkWarning("{{ returnlist[5] }}", "1");
+            checkWarning("{{ returnlist[6] }}", "2");
+            checkWarning("{{ returnlist[7] }}", "3");
+            checkWarning("{{ returnlist[8] }}", "4");
+            checkWarning("{{ returnlist[9] }}", "5");
+        }
+        function checkWarning (string,rd){
+            console.log(string);
+            varyoyo = document.getElementById("ab"+rd);
+            if (string.startsWith("Pas")) {
+                varyoyo.innerHTML = "<div style='color:red'>"+string+"</div>";
+            } else {
+                varyoyo.innerHTML = "<div style='color:green'>"+string+"</div>";
+            }
+        }
+
+        function vorigepagina(){
+            window.location.href = window.location.href.replace(window.location.pathname, "/Weer");
+        }
+    </script>
 </head>
 <body>
-    <h3>Weerbericht:</h3>
-    {{returnlist[0]}}
-    <br>
-    {{returnlist[1]}}
-    <br>
-    {{returnlist[2]}}
-    <br>
-    {{returnlist[3]}}
-    <br>
-    {{returnlist[4]}}
-    <br>
-    <br>
-    <h3>Weerstatus op dit moment:</h3>
-    {{returnlist[5]}}
-    <br>
-    {{returnlist[6]}}
-    <br>
-    {{returnlist[7]}}
-    <br>
-    {{returnlist[8]}}
-    <br>
-    {{returnlist[9]}}
+    <h2>Weerbericht:</h2>
+    <pre>{{returnlist[0][:32]}}  {{returnlist[0][32:]}}</pre>
+    <pre>{{returnlist[1][:18]}}                {{returnlist[1][18:]}}</pre>
+    <pre>{{returnlist[2][:23]}}           {{returnlist[2][23:]}}</pre>
+    <pre>{{returnlist[3][:19]}}               {{returnlist[3][19:]}}</pre>
+    <pre>{{returnlist[4]}}</pre>
+    <h2>Weerstatus op dit moment:</h2>
+
+    <pre><div id="ab1"></div></pre>
+    <pre><div id="ab2"></div></pre>
+    <pre><div id="ab3"></div></pre>
+    <pre><div id="ab4"></div></pre>
+    <pre><div id="ab5"></div></pre>
+    {% block scripts %}<script type="text/javascript">checkWarning('{{ returnlist[5] }}')</script> {% endblock %}
+    <button onclick="vorigepagina()">Kies een andere locatie</button>
 </body>
 </html>

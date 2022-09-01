@@ -54,12 +54,12 @@ def printpersonalGraph():
 #download laatste weer data van api
 @app.route("/apiCall")
 def callapi():
-    return WeerApi.homepagina()
+    return WeerApi.ApiCall()
 
 #choose locatie van weer
 @app.route("/apiWeer")
 def printhomeweer():
-    return WeerApi.homepagina()
+    return WeerApi.homepagina1()
 
 #return weer van locatie
 @app.route("/apiWeer/<loc>")
@@ -69,7 +69,7 @@ def printweer(loc):
 #gebruikervriendelijk weer homepagina
 @app.route("/Weer")
 def weerhome():
-    return WeerApi.homepagina()
+    return WeerApi.homepagina2()
 
 #gebruikervriendelijk apicall+weer op locatie
 @app.route("/Weer/<loc>")
@@ -84,7 +84,7 @@ def printkiespersoon():
 #connectie met database en voortgang van route visualiseren voor een persoon
 @app.route("/VoortgangVisual/<persoon>")
 def printkiesroute(persoon):
-    return "Kies een route die dit persoon heeft minstens 1 keer heeft gerend door '/' met het id of naam van de route achter de url te typen"
+    return VoortgangVisualisatie.persooncontrole(persoon)
 
 #connectie met database en voortgang van route visualiseren voor een persoon
 @app.route("/VoortgangVisual/<persoon>/<route>")
@@ -97,4 +97,4 @@ def printRunTip():
     return RunTipsScraping.GetTip()
 
 #voor niet flask refreshen, run python app.py met hieronder niet in commentaar
-#app.run(debug=True)
+app.run(debug=True)

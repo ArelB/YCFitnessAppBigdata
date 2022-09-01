@@ -3,6 +3,24 @@ import plotly.express as px
 import pandas as pd
 import datetime
 
+def persooncontrole(persoon):
+    server = 'yc2207hardloopserver.database.windows.net'
+    database = 'yc2207backend'
+    username = 'hardloop'
+    password = 'abcd1234ABCD!@#$'
+    driver= '{ODBC Driver 17 for SQL Server}'
+
+    with odbc.connect('DRIVER='+driver+';SERVER=tcp:'+server+';PORT=1433;DATABASE='+database+';UID='+username+';PWD='+ password) as conn:
+        with conn.cursor() as cursor:
+            Users = pd.read_sql_query("SELECT ID, UserName FROM dbo.[User]", conn)
+
+            if persoon in Users["UserName"].unique():
+                return "Bij welke route wilt u de voortgang zien van " + str(persoon) + "? typ '/' met de naam of id van een route die deze gebruiker minstens 1 keer gerend heeft"
+            try:
+                if int(persoon) in Users["ID"].unique():
+                    return "Bij welke route wilt u de voortgang zien van de gebruiker met het ID " + str(persoon) + "? typ '/' met de naam of id van een route die deze gebruiker minstens 1 keer gerend heeft"
+            except: return "De waarde die u heeft opgegeven voor gebruiker komt niet overeen met de naam of id van een gebruiker"
+
 def ShowGraph(persoon, route):
 
     #bepalen wat meest recente bestand is:
@@ -60,4 +78,17 @@ def ShowGraph(persoon, route):
     fig.show()
     
     # print("---------============== einde execute")
+    #works
+    #http://localhost:5000/VoortgangVisual
+    #http://localhost:5000/VoortgangVisual/Wouter
+    #http://localhost:5000/VoortgangVisual/Arel
+    #http://localhost:5000/VoortgangVisual/3/9
+    #http://localhost:5000/VoortgangVisual/3/cool
+    #http://localhost:5000/VoortgangVisual/erik
+
+    #not exactly
+    #http://localhost:5000/VoortgangVisual/erik/3
+    
+
+
     return "see new tab"
