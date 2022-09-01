@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        var x;
+        var y;
+        var z;
+        var shortestdist = 0;
+        var shorteststation = "somewhere";
+        window.onload = function(){
+            getLocation();
+            x = document.getElementById("demo");
+            y = document.getElementById("demo2");
+            z = document.getElementById("demo3");
+            var shortestdist = 0;
+            var shorteststation = "somewhere";
+        }
+        
+        function getLocation() {
+            if (navigator.geolocation) {
+                console.log(navigator.geolocation)
+                navigator.geolocation.getCurrentPosition(showPosition);
+            } else {
+                x.innerHTML = "Geolocation is not supported by this browser.";
+            }
+        }
+
+        function showPosition(position) {
+            x.innerHTML = "Latitude: " + position.coords.latitude +
+            "<br>Longitude: " + position.coords.longitude;
+        }
+
+        //data
+        const dekooy = ["de kooy", 52.924, 4.785];
+        const debilt = ["de bilt", 52.101, 5.177];
+        const eelde = ["Eelde", 53.125, 6.586];
+        const vlissingen = ["Vlissingen", 51.442, 3.596];
+        const maastricht = ["Maastricht", 50.910, 5.768];
+        const valkenburg = ["Valkenburg", 52,165, 4.419];
+        const schiphol = ["Schiphol", 52.301, 4.774];
+        const soesterberg = ["Soesterberg", 52.130, 5.274];
+        const leeuwarden = ["Leeuwarden", 53.225, 5.755];
+        const deelen = ["Deelen", 52.061, 5.888];
+        const twenthe = ["Twenthe", 52.273, 6.897];
+        const rotterdam = ["Rotterdam", 51.955, 4.444];
+        const gilzerijen = ["Gilze-rijen", 51.568, 4.933];
+        const volkel = ["Volkel", 51.657, 5.706];
+        const marknesse = ["Marknesse", 52.703, 5.889];
+        const cabauw = ["Cabauw", 51.972, 4.927];
+        const eindhoven = ["Eindhoven", 51.446, 5.414];
+        const berkhout = ["Berkhout", 52.644, 4.979];
+        const hoorn = ["Hoorn", 53.393, 5.346];
+        const stavoren = ["Stavoren", 52.896, 5.384];
+        const lelystad = ["Lelystad", 52.458, 5.526];
+        const lauwersoog = ["Lauwersoog", 53.409, 6.196];
+        const heino = ["Heino", 52.437, 6.263, "HEINO AWS"];
+        const hoogeveen = ["Hoogeveen", 52.750, 6.575];
+        const hupsel = ["Hupsel", 52.073, 6.650];
+        const nieuwbeerta = ["Nieuw beerta", 53.196, 7.150];
+        const westdorpe = ["Westdorpe", 51.226, 3.862];
+        const wilhelminadorp = ["Wilhelminadorp", 51.527, 3.884];
+        const hoekvanholland = ["Hoek van holland", 51.993, 4.124];
+        const herwijnen = ["Herwijnen", 51.858, 5.145];
+        const ell = ["Ell", 51.197, 5.764];
+        const arcen = ["Arcen", 51.498, 6.196];
+        const wijkaanzee = ["Wijk aan zee", 52.506, 4.603];
+        const voorschoten = ["Voorschoten", -999.900, -999.900];
+
+        const Weerstationnen = [dekooy, debilt, eelde, vlissingen, maastricht, valkenburg,schiphol, soesterberg, leeuwarden, deelen, twenthe,
+                                rotterdam, gilzerijen,volkel, marknesse, cabauw, eindhoven,berkhout,hoorn,stavoren, lelystad,lauwersoog,heino,hoogeveen,
+                                hupsel,nieuwbeerta,westdorpe,wilhelminadorp,hoekvanholland,herwijnen, ell,arcen, wijkaanzee, voorschoten];
+        
+        function showSomething(position) {
+            y.innerHTML = "hoi";
+            shortestdist = 100;
+            shorteststation = "somewhere";
+            for (let i = 0; i < Weerstationnen.length; i++) {
+                //√[(x₂ - x₁)² + (y₂ - y₁)²]
+                console.log(Weerstationnen[i][0],Weerstationnen[i][1], Weerstationnen[i][2])
+                console.log("station: " + Weerstationnen[i][0] + " afstand: " + Math.sqrt((position.coords.latitude - Weerstationnen[i][1])**2 +  (position.coords.longitude - Weerstationnen[i][2])**2))
+                if (Math.sqrt((position.coords.latitude - Weerstationnen[i][1])**2 +  (position.coords.longitude - Weerstationnen[i][2])**2) < shortestdist) {
+                    shortestdist = Math.sqrt((position.coords.latitude - Weerstationnen[i][1])**2 +  (position.coords.longitude - Weerstationnen[i][2])**2);
+                    shorteststation = Weerstationnen[i][0];
+                }
+            }
+            y.innerHTML = "In " +shorteststation+ " is het dichstbijzijnde weerstation, met een afstand van ongeveer " +(shortestdist*111).toFixed(3)+ " km hemelsbreed vanaf uw huidige plek";
+            
+        }
+
+        function FindClosestWeerStation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showSomething);
+                //console.log(position.coords.latitude);
+            } else {
+                y.innerHTML = "Zet eerst je locatie aan";
+            }
+        }
+
+        function getclosest(position) {
+            y.innerHTML = "~Pagina is aan het laden~";
+            shortestdist = 100;
+            shorteststation = "somewhere";
+            link = "";
+            nieuwlink = "";
+            for (let i = 0; i < Weerstationnen.length; i++) {
+                //√[(x₂ - x₁)² + (y₂ - y₁)²]
+                //console.log(Weerstationnen[i][0],Weerstationnen[i][1], Weerstationnen[i][2])
+                //console.log("station: " + Weerstationnen[i][0] + " afstand: " + Math.sqrt((position.coords.latitude - Weerstationnen[i][1])**2 +  (position.coords.longitude - Weerstationnen[i][2])**2))
+                if (Math.sqrt((position.coords.latitude - Weerstationnen[i][1])**2 +  (position.coords.longitude - Weerstationnen[i][2])**2) < shortestdist) {
+                    shortestdist = Math.sqrt((position.coords.latitude - Weerstationnen[i][1])**2 +  (position.coords.longitude - Weerstationnen[i][2])**2);
+                    shorteststation = Weerstationnen[i][3];
+                    link = window.location.href;
+                    nieuwlink = link.replace(window.location.pathname, "/Weer/"+Weerstationnen[i][3]);
+                }
+            }
+            
+            console.log(nieuwlink);
+            window.location.href = nieuwlink;
+        }
+
+        function GoToClosestWeerStation() {
+            navigator.geolocation.getCurrentPosition(getclosest);
+        }
+
+        function GoToSpecificStation(plek) {
+            window.location.href = window.location.href.replace(window.location.pathname, "/Weer/"+plek);
+        }
+
+        function generateStations() {
+            z.innerHTML = "Typ achter de huidige url een '/' plus een van de hieronder beschreven weerstations:<br>D15-FA-1, P11-B, K14-FA-1C, A12-CPP, L9-FF-1, AWG-1, J6-A, HOORN-A, BUITENGAATS, VOORSCHOTEN AWS, IJMUIDEN WP, TEXELHORS WP,<br>DE KOOY VK, F3-FB-1, AMSTERDAM/SCHIPHOL AP, VLIELAND, WIJDENES WP, BERKHOUT AWS, TERSCHELLING HOORN AWS, WIJK AAN ZEE AWS, HOUTRIBDIJK WP,<br>DE BILT AWS, STAVOREN AWS, LELYSTAD AP, LEEUWARDEN, MARKNESSE AWS, DEELEN, LAUWERSOOG AWS, HEINO AWS, HOOGEVEEN AWS, GRONINGEN AP EELDE,<br>HUPSEL AWS, NIEUW BEERTA AWS, TWENTHE AWS, VLISSINGEN AWS, BORSSELE ALPHA, WESTDORPE AWS, WILHELMINADORP AWS, HOEK VAN HOLLAND AWS,<br>WOENSDRECHT, ROTTERDAM GEULHAVEN, ROTTERDAM THE HAGUE AP, CABAUW TOWER AWS, HERWIJNEN AWS, EINDHOVEN AP, VOLKEL, ELL AWS,<br>MAASTRICHT AACHEN AP, ARCEN AWS, JUANCHO E. YRAUSQUIN AIRPORT  SABA, F.D. ROOSEVELT AIRPORT ST. EUSTATIUS, FLAMINGO AIRPORT BONAIRE"
+        }
+    </script>
+</head>
+<body>
+    
+    
+    <h2>Kies een weerstation met de kaart, de locatie knoppen, de 'dichstbijzijnde weerstation' knop of pas zelf de url aan</h2>
+    
+    <h4>Hieronder kan u uw huidige coordinaten opvragen, het dichstbijzijnde weerstation opzoeken en naar het weerbericht hiervan toegaan</h4>
+    <div id="demo"></div>
+    <button onclick="getLocation()">Mijn locatie genereren</button>
+    <div id="demo2"></div>
+    <button onclick="FindClosestWeerStation()">Mijn dichstbijzijnde weerstation</button>
+    <button onclick="GoToClosestWeerStation()">Ga!</button>
+    <br>
+    <br>
+    <img style="float:right; padding-right:40%" src="https://cdn.knmi.nl/system/data_center_discover_blocks/image2s/000/000/095/xlarge/Kaart_AWS_NL_Bosatlas.jpg?1653468439" alt="" usemap="#map1661465789977">
+    <map id="map1661465789977" name="map1661465789977"><area shape="rect" coords="289,719.0000305175781,302,732.0000305175781" title="Maastricht" alt="Maastricht" href="http://localhost:5000/Weer/MAASTRICHT%20AACHEN%20AP" target="_self"><area shape="rect" coords="199,507.00001525878906,212,522.0000152587891" title="Schiphol" alt="Schiphol" href="http://localhost:5000/Weer/AMSTERDAM" target="_self"><area shape="rect" coords="330,489.0000305175781,348,507.0000305175781" title="Heino" alt="Heino" href="http://localhost:5000/Weer/HEINO%20AWS" target="_self"><area shape="rect" coords="245,347,267,365" title="Hoorn" alt="Hoorn" href="http://localhost:5000/Weer/TERSCHELLING%20HOORN%20AWS" target="_self"><area shape="rect" coords="108,672.0000305175781,126,684.0000305175781" title="Westdorpe" alt="Westdorpe" href="http://localhost:5000/Weer/WESTDORPE%20AWS" target="_self"><area shape="rect" coords="408,376.00000762939453,428,390.00000762939453" title="Nieuw Beerta" alt="Nieuw Beerta" href="http://localhost:5000/Weer/NIEUW%20BEERTA%20AWS" target="_self"></map>
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    <button onclick="GoToSpecificStation('TERSCHELLING HOORN AWS')">Hoorn</button>
+    <button onclick="GoToSpecificStation('LAUWERSOOG AWS')">Lauwersoog</button>
+    <br><button onclick="GoToSpecificStation('VLIELAND')">Vlieland</button>
+    <button onclick="GoToSpecificStation('LEEUWARDEN')">Leeuwarden</button>
+    <button onclick="GoToSpecificStation('NIEUW BEERTA AWS')">Nieuw Beerta</button>
+    <br><button onclick="GoToSpecificStation('GRONINGEN AP EELDE')">Eelde</button>
+    <br>
+    <br><button onclick="GoToSpecificStation('DE KOOY VK')">De Kooy</button>
+    <button onclick="GoToSpecificStation('STAVOREN AWS')">Stavoren</button>
+    <br><button onclick="GoToSpecificStation('HOOGEVEEN AWS')">Hoogeveen</button>
+    <button onclick="GoToSpecificStation('MARKNESSE AWS')">Marknesse</button>
+    <button onclick="GoToSpecificStation('BERKHOUT AWS')">Berkhout</button>
+    <br><button onclick="GoToSpecificStation('WIJK AAN ZEE AWS')">Wijk aan Zee</button>
+    <button onclick="GoToSpecificStation('LELYSTAD AP')">Lelystad</button>
+    <button onclick="GoToSpecificStation('HEINO AWS')">Heino</button>
+    <br><button onclick="GoToSpecificStation('AMSTERDAM')">Schiphol</button>
+    <button onclick="GoToSpecificStation('TWENTHE AWS')">Twenthe</button>
+    <br>
+    <br><button onclick="GoToSpecificStation('VOORSCHOTEN AWS')">Voorschoten</button>
+    <button onclick="GoToSpecificStation('DE BILT AWS')">De Bilt</button>
+    <button onclick="GoToSpecificStation('DEELEN')">Deelen</button>
+    <button onclick="GoToSpecificStation('HUPSEL AWS')">Hupsel</button>
+    <br>
+    <br><button onclick="GoToSpecificStation('HOEK VAN HOLLAND AWS')">Hoek van Holland</button>
+    <button onclick="GoToSpecificStation('ROTTERDAM THE HAGUE AP')">Rotterdam</button>
+    <button onclick="GoToSpecificStation('CABAUW TOWER AWS')">Cabauw</button>
+    <br><button onclick="GoToSpecificStation('HERWIJNEN AWS')">Herwijnen</button>
+    <br>
+    <br><button onclick="GoToSpecificStation('VOLKEL')">Volkel</button>
+    <button onclick="GoToSpecificStation('WILHELMINADORP AWS')">Wilhelminadorp</button>
+    <button onclick="GoToSpecificStation('gilze')">gilze</button>
+    <button onclick="GoToSpecificStation('ARCEN AWS')">Arcen</button>
+    <br>
+    <br><button onclick="GoToSpecificStation('VLISSINGEN AWS')">Vlissingen</button>
+    <button onclick="GoToSpecificStation('WOENSDRECHT')">Woensdrecht</button>
+    <button onclick="GoToSpecificStation('EINDHOVEN AP')">Eindhoven</button>
+    <br>
+    <br><button onclick="GoToSpecificStation('WESTDORPE AWS')">Westdorpe</button>
+    <button onclick="GoToSpecificStation('ELL AWS')">Ell</button>
+    <br>
+    <br><button onclick="GoToSpecificStation('MAASTRICHT AACHEN AP')">Maastricht</button>
+    
+    <br><br>Meer weerstations om zelf achter url te plakken:
+    <button onclick="generateStations()">genereer</button><br>
+    <div id="demo3"></div>
+</body>
+</html>

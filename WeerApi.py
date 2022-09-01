@@ -62,8 +62,11 @@ def ApiCall():
 
     return "[" + timestamp2 + "]: De meest recente weergegevens die u heeft opgevraagt zijn opgeslagen in de map ApiCallResults onder de naam: "+ filename
 
-def homepagina():
-    return render_template('apiweerhome.html')
+def homepagina1():
+    return render_template('apiweerhome1.html')
+
+def homepagina2():
+    return render_template('apiweerhome2.html')
 
 
 def NCdata(loc):
